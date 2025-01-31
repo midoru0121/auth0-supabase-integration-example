@@ -1,6 +1,56 @@
 ## Getting Started
 
-First, run the development server:
+### 1: Create an Auth0 tenant.
+
+From the Auth0 dashboard, click the menu to the right of the Auth0 logo, and select Create tenant.
+
+Select a Region - JP.
+
+Select Development Tag.
+
+Create your application. Select the `Regular Web Applications` option and click Create.
+
+Select Settings and navigate to the Application URIs section, and update the following:
+
+Allowed Callback URLs: `http://localhost:3000/api/auth/callback`
+Allowed Logout URLs: `http://localhost:3000`
+
+Select OAuth and set JSON Web Token Signature to `RS256`.
+
+[auth0](https://private-user-images.githubusercontent.com/3450879/406928193-644b5421-12aa-4583-853f-28940824ff17.jpg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3Mzc5ODM0ODIsIm5iZiI6MTczNzk4MzE4MiwicGF0aCI6Ii8zNDUwODc5LzQwNjkyODE5My02NDRiNTQyMS0xMmFhLTQ1ODMtODUzZi0yODk0MDgyNGZmMTcuanBnP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MDEyNyUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTAxMjdUMTMwNjIyWiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9Mzg0ZTVkMjk3NzNiMjcyNTU2NjYzYjJlNmFhYTI2NzAyMTNkN2ZhNzFlNDcyYjU0YmE4YWU3M2YwMjhjMzcwMCZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.GImibUAnqCmaRgtebAHCk2uhNmW94Mt7DJY6gDGGRCU)
+
+[auth0](https://private-user-images.githubusercontent.com/3450879/406928430-05f17c99-4447-46a3-9816-57333af1aafb.jpg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3Mzc5ODM0ODIsIm5iZiI6MTczNzk4MzE4MiwicGF0aCI6Ii8zNDUwODc5LzQwNjkyODQzMC0wNWYxN2M5OS00NDQ3LTQ2YTMtOTgxNi01NzMzM2FmMWFhZmIuanBnP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MDEyNyUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTAxMjdUMTMwNjIyWiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9M2Y0MjA4ZTdkMjAyZDVmN2YyNDgxZmNlMzMzMDgxNzgwMzZmODdjNGUzNGVhMzk5Y2NlODc4YmFiNGYzZmQwNSZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.iNIvr1_PGZIhwVEYUfPc8sIMd3V2bZsrsEGMNR3Pieg)
+
+[auth0](https://private-user-images.githubusercontent.com/3450879/406930180-59f1898e-18ef-47cc-a173-9b0ed2b6c803.jpg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3Mzc5ODM0ODIsIm5iZiI6MTczNzk4MzE4MiwicGF0aCI6Ii8zNDUwODc5LzQwNjkzMDE4MC01OWYxODk4ZS0xOGVmLTQ3Y2MtYTE3My05YjBlZDJiNmM4MDMuanBnP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MDEyNyUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTAxMjdUMTMwNjIyWiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9NTcyNzRiMThlMjhjYzBjZWY3OTU5ZDQ3MjIwNjllZWVjNmE3MTE1M2U0YzljNmViYTc2YTg1ZjBmMmU3YTBmZSZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.YOdctaENUvX769rZRTCaL6nVytkwlw64GYsRtiRjnh4)
+
+### 2: Creating a Supabase project
+
+[supabase](https://private-user-images.githubusercontent.com/3450879/406928843-b035bdd9-597d-4497-8342-c81cc8467ad5.jpg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3Mzc5ODMxOTUsIm5iZiI6MTczNzk4Mjg5NSwicGF0aCI6Ii8zNDUwODc5LzQwNjkyODg0My1iMDM1YmRkOS01OTdkLTQ0OTctODM0Mi1jODFjYzg0NjdhZDUuanBnP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MDEyNyUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTAxMjdUMTMwMTM1WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9YzVlY2M3ZWJlYTUxM2FmMTJjYTdiODY3NWU4NTRmMTgzYzU3YWZkODE5YzYwZjNjMzFhN2NiOTNlMDI1MTgyYSZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.64H8hUtZEfe58ilMz7qeziMuvQPm3k859Tk2pVcPOiQ)
+
+### 3 Run this application
+
+Copy `.env.local.example` to `.env.local`.
+
+```bash
+
+# Use the output of the following command as the value for AUTH0_SECRET.
+# node -e "console.log(crypto.randomBytes(32).toString('hex'))"
+# > https://github.com/auth0/nextjs-auth0
+AUTH0_SECRET=any-secure-value
+
+# You can find Auth0 values in the Settings section under Basic Information for your application.
+AUTH0_BASE_URL=http://localhost:3000
+AUTH0_ISSUER_BASE_URL=https://<name-of-your-tenant>.<region-you-selected>.auth0.com
+AUTH0_CLIENT_ID=get-from-auth0-dashboard
+AUTH0_CLIENT_SECRET=get-from-auth0-dashboard
+
+# You can find the Supabase values under Settings > API for your project.
+NEXT_PUBLIC_SUPABASE_URL=get-from-supabase-dashboard
+NEXT_PUBLIC_SUPABASE_ANON_KEY=get-from-supabase-dashboard
+SUPABASE_JWT_SECRET=get-from-supabase-dashboard
+```
+
+https://auth0.com/blog/assign-default-role-on-sign-up-with-actions/
 
 ```bash
 npm run dev
@@ -11,5 +61,3 @@ pnpm dev
 # or
 bun dev
 ```
-
-### Next.js
