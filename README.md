@@ -1,6 +1,8 @@
 ## Getting Started
 
-### 1: Create an Auth0 tenant.
+### 1: Set up an Auth0.
+
+## App Settings
 
 From the Auth0 dashboard, click the menu to the right of the Auth0 logo, and select Create tenant.
 
@@ -10,17 +12,38 @@ Select Development Tag.
 
 Create your application. Select the `Regular Web Applications` option and click Create.
 
-Select Settings and navigate to the Application URIs section, and update the following:
+Select `Settings` and navigate to the Application URIs section, and update the following:
+
+![Image](https://github.com/user-attachments/assets/06465bbf-7b3a-4334-836e-c9bf1bc054cd)
 
 Allowed Callback URLs: `http://localhost:3000/api/auth/callback`
 Allowed Logout URLs: `http://localhost:3000`
 
 Select OAuth and set JSON Web Token Signature to `RS256`.
+
 ![Image](https://github.com/user-attachments/assets/644b5421-12aa-4583-853f-28940824ff17)
 ![Image](https://github.com/user-attachments/assets/05f17c99-4447-46a3-9816-57333af1aafb)
 ![Image](https://github.com/user-attachments/assets/59f1898e-18ef-47cc-a173-9b0ed2b6c803)
 
-Add Auth0
+## Auth0 Management API Settings
+
+Select Auth0 Management API and select `Machine to Machine Applications` and check Authrozed button. And Open Cheveron.
+
+![MachineToMachineApplications](https://github.com/user-attachments/assets/5dd3d72b-53fc-469e-ba5e-0e8bdb4e7b93)
+
+![SelectAuth0ManagementAPI](https://github.com/user-attachments/assets/91b68db3-4d99-4cca-8628-40c67225a69d)
+
+Add `read:users` and `update:users` permissions then update.
+
+![permissions](https://github.com/user-attachments/assets/0761dd70-b93b-401f-8bed-b08aabe6bfce)
+
+## Create an user role
+
+Select Roles and create `Autenticated` role.
+
+![IcreateRole1](https://github.com/user-attachments/assets/516318f3-3ff7-4528-9b0b-c0bf3f375cd3)
+
+![IcreateRole2](https://github.com/user-attachments/assets/31872540-82d5-4527-b526-af33a1f21b00)
 
 ### 2: Creating a Supabase project
 
