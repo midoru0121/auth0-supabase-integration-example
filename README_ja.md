@@ -1,6 +1,6 @@
 [英語](https://github.com/midoru0121/auth0-supabase-integration-example/blob/main/README.md)
 
-# auth0-supabase-integration-example
+# nextjs-auth0-supabase-integration-example
 
 ## Auth0の設定
 

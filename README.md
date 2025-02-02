@@ -1,103 +1,101 @@
-## Getting Started
+# nextjs-auth0-supabase-integration-example
 
-### 1: Set up an Auth0.
+## Setting Up Auth0
 
-## App Settings
+### Creating an Auth0 Application
 
-From the Auth0 dashboard, click the menu to the right of the Auth0 logo, and select Create tenant.
+After registering with Auth0, create an application and select `Regular Web Applications`.
 
-Select a Region - JP.
-
-Select Development Tag.
-
-Create your application. Select the `Regular Web Applications` option and click Create.
-
-Select `Settings` and navigate to the Application URIs section, and update the following:
+Click `Settings` to navigate to the configuration page.
 
 ![Image](https://github.com/user-attachments/assets/06465bbf-7b3a-4334-836e-c9bf1bc054cd)
 
-Copy Domain, Client Id, Client Secret! We use these data later.
+Note down `Domain`, `Client Id`, and `Client Secret`, as they will be needed later.
 
 ![Image](https://github.com/user-attachments/assets/644b5421-12aa-4583-853f-28940824ff17)
 
-Set Allowed Callback URLs: `http://localhost:3000/api/auth/callback`
-Set Allowed Logout URLs: `http://localhost:3000`
+Set `Allowed Callback URLs` to `http://localhost:3000/api/auth/callback`.
+Set `Allowed Logout URLs` to `http://localhost:3000`.
 
 ![Image](https://github.com/user-attachments/assets/05f17c99-4447-46a3-9816-57333af1aafb)
 
-Select OAuth and set JSON Web Token Signature to `RS256`.
+Then, set `OAuth` and `JSON Web Token Signature` to `RS256`.
 
 ![Image](https://github.com/user-attachments/assets/59f1898e-18ef-47cc-a173-9b0ed2b6c803)
 
-## Auth0 Management API Settings
+Go to `Connections` and enable `google-oauth-2` to allow sign-ups via Google accounts.
 
-Select Auth0 Management API and select `Machine to Machine Applications` and check Authrozed button. And Open Cheveron.
+![googleOAuthConnection](https://github.com/user-attachments/assets/28683d31-91ee-4f2b-a41e-75044644a713)
+
+### Configuring the Auth0 Management API
+
+Select the Auth0 Management API, choose `Machine to Machine Applications`, and check the `Authorized` button. Then, expand the details.
 
 ![MachineToMachineApplications](https://github.com/user-attachments/assets/5dd3d72b-53fc-469e-ba5e-0e8bdb4e7b93)
 
 ![SelectAuth0ManagementAPI](https://github.com/user-attachments/assets/91b68db3-4d99-4cca-8628-40c67225a69d)
 
-Add `read:users` and `update:users` permissions then update.
+Add the following permissions: `read:users`, `update:users`, and `read:roles`.
 
 ![permissions](https://github.com/user-attachments/assets/0761dd70-b93b-401f-8bed-b08aabe6bfce)
 
-## Create an user role
+### Creating a Role
 
-Select Roles and create `Autenticated` role.
+Click `Roles` and create an `Authenticated` role. This role will be assigned to users by default.
 
 ![IcreateRole1](https://github.com/user-attachments/assets/516318f3-3ff7-4528-9b0b-c0bf3f375cd3)
 
 ![IcreateRole2](https://github.com/user-attachments/assets/31872540-82d5-4527-b526-af33a1f21b00)
 
-And copy Role ID. We use this id later.
+Note the `Role ID` of the `Authenticated` role, as it will be used later.
 
 ![createRole3](https://github.com/user-attachments/assets/15639ae2-9c48-41ce-90b3-11e3fdcd74d6)
 
-## Setting up Auth0 Post Login Action.
+## Setting Up Auth0 Post Login Action
 
-After user login, we assign the user add default assig role. So let's set up `Post Login Action`.
+To assign a default role upon user login, set up a `Post Login Action`.
 
-Select Actions => Triggers and choose post-login. And choose `Build from scratch`.
+Go to `Actions` > `Triggers` and click `post-login`.
 
 ![CreateAction](https://github.com/user-attachments/assets/6ad9758a-3601-4017-be23-1f6126e0e2a1)
 
+Select `Build from scratch`.
+
 ![CreateAction2](https://github.com/user-attachments/assets/af677761-be0a-4d67-8104-6957e3fab4fc)
+
+Name the action and click `Create`.
 
 ![CreateAction3](https://github.com/user-attachments/assets/7809b2d4-755f-4c4d-ac36-01a10d02726a)
 
-![CreateAction4](https://github.com/user-attachments/assets/e2082079-6b8c-48df-a2e1-4c458687fb9d)
-
-Add Secrets `DOMAIN` . `CLIENT_SECRET`, `CLIENT_ID` by selecting secrets.
+Go to `Secrets` and add `DOMAIN`, `CLIENT_SECRET`, `CLIENT_ID`, and `DEFAULT_ROLE_ID`.
 
 ![CreateAction5](https://github.com/user-attachments/assets/c4ff31d2-a28e-48ba-ae40-3548cbb39898)
 
-Add dependency `auth0` and `axios`
+Click `Dependencies` and add `auth0` and `axios`.
 
-![CreateAction6](https://github.com/user-attachments/assets/0d247593-1a5e-4896-993c-b685165c109f)
-
-Set up post login. Replace YOUR_ROLE_ID to real role id.
+Paste the following code:
 
 ```javascript
 exports.onExecutePostLogin = async (event, api) => {
-  // Axiosをインポート
+  // Import Axios
 
   const axios = require("axios").default;
 
-  // Auth0 Management APIクライアントをインポート
+  // Import Auth0 Management API client
 
   const { ManagementClient } = require("auth0");
 
-  // カスタムクレーム用の名前空間を定義
+  // Define a namespace for custom claims
   const roleNamespace = "https://auth0-supabase-interation-example.com/roles";
 
-  // ユーザーが既にロールを持っている場合は処理を終了
+  // If the user already has roles, exit the process
   if (
     event.authorization &&
     event.authorization.roles &&
     event.authorization.roles.length > 0
   ) {
     console.log("The user has roles.");
-    // 既存のロールをカスタムクレームとして設定
+    // Set existing roles as custom claims
     const roles = event.authorization.roles.join(",");
     api.idToken.setCustomClaim(roleNamespace, roles);
 
@@ -105,7 +103,7 @@ exports.onExecutePostLogin = async (event, api) => {
   }
 
   try {
-    // Management API用のアクセストークンを取得
+    // Get the access token for the Management API
     const options = {
       method: "POST",
       url: `https://${event.secrets.DOMAIN}/oauth/token`,
@@ -123,19 +121,19 @@ exports.onExecutePostLogin = async (event, api) => {
 
     const response = await axios.request(options);
 
-    // Management APIクライアントを初期化
+    // Initialize the Management API client
     const management = new ManagementClient({
       domain: event.secrets.DOMAIN,
       token: response.data.access_token,
     });
 
-    // ユーザーにロールを割り当て
+    // Assign roles to the user
     const params = { id: event.user.user_id };
     const data = { roles: [event.secrets.DEFAULT_ROLE_ID] };
 
     await management.users.assignRoles(params, data);
 
-    // APIからロールの詳細情報を取得
+    // Get role details from the API
     const roleResponse = await axios.get(
       `https://${event.secrets.DOMAIN}/api/v2/roles/${event.secrets.DEFAULT_ROLE_ID}`,
       {
@@ -144,54 +142,84 @@ exports.onExecutePostLogin = async (event, api) => {
         },
       }
     );
-    // ユーザーのロール名をIDトークンのカスタムクレームとして設定
+    // Set the role name of the user as a custom claim in the ID token
     api.idToken.setCustomClaim(roleNamespace, roleResponse.data.name);
 
     console.log("Success");
   } catch (e) {
-    // エラーをログに出力
+    // Log the error
     console.log(e);
   }
 };
 ```
 
-### 2: Creating a Supabase project
+Click `Deploy`.
 
-![Image](https://github.com/user-attachments/assets/b035bdd9-597d-4497-8342-c81cc8467ad5)
+![CreateAction4](https://github.com/user-attachments/assets/e2082079-6b8c-48df-a2e1-4c458687fb9d)
+
+Return to the `post-login` configuration and place the deployed action right after `User Logged In`.
+
+![createAction7](https://github.com/user-attachments/assets/eb3e4872-4f25-4169-8902-8c2a16b8a79c)
+
+## Creating a Supabase Project
+
+After registering with Supabase, go to `Settings -> API` and note the `Project URL`, `anon key`, and `JWT_SECRET`.
+
+![APISetting](https://github.com/user-attachments/assets/601509da-8834-4156-8106-c145defa5710)
+
+![jwtsecret](https://github.com/user-attachments/assets/887a3b56-2f70-4dce-be12-e53b1bb52556)
+
+Create a `todo` table.
+
+![createTable](https://github.com/user-attachments/assets/d3f8d608-2219-4882-8340-2542a28d1810)
+
+Add a `title` (text type) column and click `Save`.
+
+![createTable2](https://github.com/user-attachments/assets/ffdaa8a1-4982-4589-a6a8-49024cea5946)
+
+Insert some sample data.
+
+![createTable3](https://github.com/user-attachments/assets/2fada978-8f2b-437b-b6c2-1948b2c3ee05)
+
+Set an RLS policy on the `todo` table to restrict access to users without the `Authenticated` role.
+
+```sql
+alter policy "JWT Authenticated can view todo"
+on "public"."todo"
+to public
+using (
+  ((auth.jwt() -> 'userRoles'::text) ? 'Authenticated'::text)
+);
+```
 
 ![jwt](https://github.com/user-attachments/assets/a8ada4bb-a8e5-42f9-b056-8c16e341c645)
 
-### 3 Run this application
+Click `Save Policy`.
 
-Copy `.env.local.example` to `.env.local`.
+## Running the Application
+
+Create a `.env.local` file:
 
 ```bash
-
-# Use the output of the following command as the value for AUTH0_SECRET.
-# node -e "console.log(crypto.randomBytes(32).toString('hex'))"
-# > https://github.com/auth0/nextjs-auth0
+# .env.local
 AUTH0_SECRET=any-secure-value
-
-# You can find Auth0 values in the Settings section under Basic Information for your application.
 AUTH0_BASE_URL=http://localhost:3000
-AUTH0_ISSUER_BASE_URL=https://<name-of-your-tenant>.<region-you-selected>.auth0.com
-AUTH0_CLIENT_ID=get-from-auth0-dashboard
-AUTH0_CLIENT_SECRET=get-from-auth0-dashboard
-
-# You can find the Supabase values under Settings > API for your project.
-NEXT_PUBLIC_SUPABASE_URL=get-from-supabase-dashboard
-NEXT_PUBLIC_SUPABASE_ANON_KEY=get-from-supabase-dashboard
-SUPABASE_JWT_SECRET=get-from-supabase-dashboard
+AUTH0_ISSUER_BASE_URL=https://<your-tenant>.auth0.com
+AUTH0_CLIENT_ID=your-client-id
+AUTH0_CLIENT_SECRET=your-client-secret
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+SUPABASE_JWT_SECRET=your-supabase-jwt-secret
 ```
 
-https://auth0.com/blog/assign-default-role-on-sign-up-with-actions/
+Start the application and visit http://localhost:3000.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
-# or
-bun dev
 ```
+
+![Login](https://github.com/user-attachments/assets/60e18305-431b-4a82-943e-6f799b306b87)
+
+Click `Login` and authenticate via email or Google OAuth. Then, visit http://localhost:3000/protected to verify data retrieval.
+
+![afterLogin](https://github.com/user-attachments/assets/0560986f-e037-42b9-8c84-3aaec014843a)
