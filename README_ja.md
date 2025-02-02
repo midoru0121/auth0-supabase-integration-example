@@ -22,6 +22,7 @@ Allowed Logout URLsに `http://localhost:3000` を設定します。
 ![Image](https://github.com/user-attachments/assets/05f17c99-4447-46a3-9816-57333af1aafb)
 
 そして、OAuth and set JSON Web Token Signature を `RS256` に設定します。
+そして、`OIDC Conformant` にチェックが入っていることをチェックします。
 
 ![Image](https://github.com/user-attachments/assets/59f1898e-18ef-47cc-a173-9b0ed2b6c803)
 
@@ -75,7 +76,9 @@ Actionを命名して `Create` をクリックします。
 
 ![CreateAction5](https://github.com/user-attachments/assets/c4ff31d2-a28e-48ba-ae40-3548cbb39898)
 
-`Dependencies` をクリックして `auth0` と `axios` を追加します。
+`Add Dependency` をクリックして `auth0` と `axios` を追加します。
+
+![createAction8](https://github.com/user-attachments/assets/cd519d3d-4e29-4f06-9456-accbc80fe118)
 
 下記のコードを貼り付けます。
 

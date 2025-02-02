@@ -12,14 +12,14 @@ Click `Settings` to navigate to the configuration page.
 
 Note down `Domain`, `Client Id`, and `Client Secret`, as they will be needed later.
 
-![Image](https://github.com/user-attachments/assets/644b5421-12aa-4583-853f-28940824ff17)
+![Image](https://github.com/user-attachments/assets/05f17c99-4447-46a3-9816-57333af1aafb)
 
 Set `Allowed Callback URLs` to `http://localhost:3000/api/auth/callback`.
 Set `Allowed Logout URLs` to `http://localhost:3000`.
 
-![Image](https://github.com/user-attachments/assets/05f17c99-4447-46a3-9816-57333af1aafb)
+![Image](https://github.com/user-attachments/assets/644b5421-12aa-4583-853f-28940824ff17)
 
-Then, set `OAuth` and `JSON Web Token Signature` to `RS256`.
+Then, set `OAuth` and `JSON Web Token Signature` to `RS256`. Also, check that the `OIDC Conformant` box is checked.
 
 ![Image](https://github.com/user-attachments/assets/59f1898e-18ef-47cc-a173-9b0ed2b6c803)
 
@@ -71,7 +71,9 @@ Go to `Secrets` and add `DOMAIN`, `CLIENT_SECRET`, `CLIENT_ID`, and `DEFAULT_ROL
 
 ![CreateAction5](https://github.com/user-attachments/assets/c4ff31d2-a28e-48ba-ae40-3548cbb39898)
 
-Click `Dependencies` and add `auth0` and `axios`.
+Click `Add Dependency` and add `auth0` and `axios`.
+
+![createAction8](https://github.com/user-attachments/assets/cd519d3d-4e29-4f06-9456-accbc80fe118)
 
 Paste the following code:
 
