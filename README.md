@@ -2,6 +2,17 @@
 
 # nextjs-auth0-supabase-integration-example
 
+This is the flow of the application. Assumption: The signing algorithm for both Supabase and Auth0 is set to `RS256`.
+
+- Authenticate the user using Auth0.
+- Immediately after logging in via Auth0, assign the role previously created in Auth0 to the user.
+- Include the above role in the payload, sign it with Supabase’s JWT secret, and store it in the @auth0/nextjs-auth0 session.
+  - From here on, it can be accessed as a session inside Next.js’s RSC. This JWT will be used as an access token for Supabase.
+- Access Supabase from within Next.js’s RSC (when doing this, attach the above access token as a Bearer token in the request).
+- On the Supabase side, decode the JWT for the RLS policy and check if the role is included.
+  - If the role is not included, deny access to the table.
+  - If the role is included, grant access to the table.
+
 ## Setting Up Auth0
 
 ### Creating an Auth0 Application
