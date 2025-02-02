@@ -26,7 +26,7 @@ export default async function ProtectedPage() {
     // エラーをログに出力
     console.log(error);
 
-    // SupabaseのJWTの有効期限切れの場合、Auth0からもログアウトさせる。
+    // SupabaseのJWTが有効期限切れの場合、Auth0からもログアウトさせる。
     if ("JWT expired" === error.message) {
       redirect("/api/auth/logout");
     }
