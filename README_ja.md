@@ -33,7 +33,7 @@ Allowed Logout URLsに `http://localhost:3000` を設定します。
 
 Auth0 Management APIを選択し、`Machine to Machine Applications`を選択して、`Authrozedボタン` をチェックします。そして詳細を開きます。
 
-![MachineToMachineApplications](https://github.com/user-attachments/assets/5dd3d72b-53fc-469e-ba5e-0e8bdb4e7b93)
+![MachineToMachineApplications](https://github.com/user-attachments/assets/20cfbfd0-c189-444e-9cd8-fc492f2c7149)
 
 ![SelectAuth0ManagementAPI](https://github.com/user-attachments/assets/91b68db3-4d99-4cca-8628-40c67225a69d)
 

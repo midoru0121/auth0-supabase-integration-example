@@ -31,7 +31,7 @@ Go to `Connections` and enable `google-oauth-2` to allow sign-ups via Google acc
 
 Select the Auth0 Management API, choose `Machine to Machine Applications`, and check the `Authorized` button. Then, expand the details.
 
-![MachineToMachineApplications](https://github.com/user-attachments/assets/5dd3d72b-53fc-469e-ba5e-0e8bdb4e7b93)
+![MachineToMachineApplications](https://github.com/user-attachments/assets/20cfbfd0-c189-444e-9cd8-fc492f2c7149)
 
 ![SelectAuth0ManagementAPI](https://github.com/user-attachments/assets/91b68db3-4d99-4cca-8628-40c67225a69d)
 
