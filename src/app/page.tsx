@@ -15,8 +15,6 @@ export default async function Home() {
 
   const { user } = session;
 
-  console.log(user);
-
   return (
     <div>
       <p>

@@ -30,6 +30,8 @@ const afterCallback: AfterCallbackAppRoute = async (
     throw new Error("SUPABASE_JWT_SECRET not set");
   }
 
+  session.supabaseAccessTokenExpiredAt = supabaseJWTPayload.exp;
+
   // JWTトークンを生成してセッションに追加。Supabaseの認証に用いる。
   session.user.supabaseAccessToken = jwt.sign(
     supabaseJWTPayload,
@@ -38,6 +40,7 @@ const afterCallback: AfterCallbackAppRoute = async (
   // Auth0から取得したユーザーロールとIDを使用してJWTトークンを生成
   // トークンの有効期限は1時間
   // 生成したトークンはSupabaseの認証に使用される
+
   return session;
 };
 
